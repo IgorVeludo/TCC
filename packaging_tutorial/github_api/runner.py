@@ -1,6 +1,12 @@
+# encoding=utf8
+# encoding: iso-8859-1 
+# encoding: win-1252
+
 import click
 from github import Github
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 @click.command()
 @click.option('--repository',
@@ -18,7 +24,7 @@ def start(repository, username, password):
 
     g = Github(username, password)
 
-    # repo = g.get_repo(repository)
+    repo = g.get_repo(repository)
 
     # open_issues = repo.get_issues(state='open')
     # for issue in open_issues:
@@ -28,6 +34,11 @@ def start(repository, username, password):
     # print("Quantidade de estrelas: {}".format(repo.stargazers_count))
 
     ## Search repository by language
-    repositories = g.search_repositories(query='language:python')
-    for repo in repositories:
-        print(repo)
+    # repositories = g.search_repositories(query='language:python')
+    # for repo in repositories:
+    #     print(repo)
+    commits = repo.get_commits()
+    
+    for commit in commits:     
+        print(commit.commit.author)
+
