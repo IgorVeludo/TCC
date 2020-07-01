@@ -18,8 +18,16 @@ def start(repository, username, password):
 
     g = Github(username, password)
 
-    repo = g.get_repo(repository)
+    # repo = g.get_repo(repository)
 
-    open_issues = repo.get_issues(state='open')
-    for issue in open_issues:
-        print(issue)
+    # open_issues = repo.get_issues(state='open')
+    # for issue in open_issues:
+    #     print(issue)
+
+    ## Get count of stars
+    # print("Quantidade de estrelas: {}".format(repo.stargazers_count))
+
+    ## Search repository by language
+    repositories = g.search_repositories(query='language:python')
+    for repo in repositories:
+        print(repo)
