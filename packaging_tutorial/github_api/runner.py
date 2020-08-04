@@ -1,12 +1,15 @@
 # encoding=utf8
-# encoding: iso-8859-1 
+# encoding: iso-8859-1
 # encoding: win-1252
 
 import click
 from github import Github
 import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
+from github_api import pull_request
+
+# reload(sys)
+# sys.setdefaultencoding('utf8')
+
 
 @click.command()
 @click.option('--repository',
@@ -20,25 +23,7 @@ def start(repository, username, password):
     # for x in range(count):
     #     click.echo('Hello %s %s' % (repository, name))
 
-    # github_api.getRepository(username, password)
-
     g = Github(username, password)
 
-    repo = g.get_repo(repository)
-
-    # open_issues = repo.get_issues(state='open')
-    # for issue in open_issues:
-    #     print(issue)
-
-    ## Get count of stars
-    # print("Quantidade de estrelas: {}".format(repo.stargazers_count))
-
-    ## Search repository by language
-    # repositories = g.search_repositories(query='language:python')
-    # for repo in repositories:
-    #     print(repo)
-    commits = repo.get_commits()
-    
-    for commit in commits:     
-        print(commit.commit.author)
-
+    pr = pull_request.PullRequest()
+    pr.get_pr_body(g, 50)
