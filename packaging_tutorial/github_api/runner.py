@@ -6,24 +6,24 @@ import click
 from github import Github
 import sys
 from github_api import pull_request
+from github_api.repository import get_pr_body
+from getpass import getpass
 
 # reload(sys)
 # sys.setdefaultencoding('utf8')
 
-
 @click.command()
-@click.option('--repository',
-              help='insira a url do repositorio que deseja ser analisado.')
-@click.option('--username',
-              help='Type your username')
-@click.option('--password',
-              help='Type your password')
-def start(repository, username, password):
+def start():
     # """Simple program that greets NAME for a total of COUNT times."""
     # for x in range(count):
     #     click.echo('Hello %s %s' % (repository, name))
+    username = input("Digite ser usuario do github: ")
+    password = getpass()
 
     g = Github(username, password)
 
-    pr = pull_request.PullRequest()
-    pr.get_pr_body(g, 50)
+    pull_requests = get_pr_body(g, 50)
+
+    for item in pull_requests:
+        pr = pull_request.PullRequest(item)
+        print("numero de commits: " + str(pr.commits))
